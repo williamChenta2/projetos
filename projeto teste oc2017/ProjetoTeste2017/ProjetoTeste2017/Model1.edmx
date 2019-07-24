@@ -1,0 +1,311 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="oc2017Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="cidade">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nome" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="id_estado" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="estado">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nome" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="uf" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="id_pais" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="pais">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nome" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'oc2017.dbo.representante' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="representante">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="nome" />
+            <PropertyRef Name="dataNascimento" />
+            <PropertyRef Name="id_cidade" />
+            <PropertyRef Name="status" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="nome" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="dataNascimento" Type="date" Nullable="false" />
+          <Property Name="telefone" Type="varchar" MaxLength="50" />
+          <Property Name="celular" Type="varchar" MaxLength="50" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="senha" Type="varchar" MaxLength="50" />
+          <Property Name="cep" Type="nchar" MaxLength="10" />
+          <Property Name="id_cidade" Type="int" Nullable="false" />
+          <Property Name="bairro" Type="varchar" MaxLength="50" />
+          <Property Name="endereco" Type="varchar" MaxLength="200" />
+          <Property Name="status" Type="tinyint" Nullable="false" />
+          <Property Name="foto" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_cidade_estado">
+          <End Role="estado" Type="Self.estado" Multiplicity="1" />
+          <End Role="cidade" Type="Self.cidade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="estado">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cidade">
+              <PropertyRef Name="id_estado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_estado_pais">
+          <End Role="pais" Type="Self.pais" Multiplicity="1" />
+          <End Role="estado" Type="Self.estado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="pais">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="estado">
+              <PropertyRef Name="id_pais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_representante_cidade">
+          <End Role="cidade" Type="Self.cidade" Multiplicity="1" />
+          <End Role="representante" Type="Self.representante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cidade">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="representante">
+              <PropertyRef Name="id_cidade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="oc2017ModelStoreContainer">
+          <EntitySet Name="cidade" EntityType="Self.cidade" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="estado" EntityType="Self.estado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="pais" EntityType="Self.pais" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="representante" EntityType="Self.representante" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [representante].[id] AS [id], 
+    [representante].[nome] AS [nome], 
+    [representante].[dataNascimento] AS [dataNascimento], 
+    [representante].[telefone] AS [telefone], 
+    [representante].[celular] AS [celular], 
+    [representante].[email] AS [email], 
+    [representante].[senha] AS [senha], 
+    [representante].[cep] AS [cep], 
+    [representante].[id_cidade] AS [id_cidade], 
+    [representante].[bairro] AS [bairro], 
+    [representante].[endereco] AS [endereco], 
+    [representante].[status] AS [status], 
+    [representante].[foto] AS [foto]
+    FROM [dbo].[representante] AS [representante]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_cidade_estado" Association="Self.FK_cidade_estado">
+            <End Role="estado" EntitySet="estado" />
+            <End Role="cidade" EntitySet="cidade" />
+          </AssociationSet>
+          <AssociationSet Name="FK_estado_pais" Association="Self.FK_estado_pais">
+            <End Role="pais" EntitySet="pais" />
+            <End Role="estado" EntitySet="estado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_representante_cidade" Association="Self.FK_representante_cidade">
+            <End Role="cidade" EntitySet="cidade" />
+            <End Role="representante" EntitySet="representante" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="oc2017Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="oc2017Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="cidade" EntityType="oc2017Model.cidade" />
+          <EntitySet Name="estado" EntityType="oc2017Model.estado" />
+          <EntitySet Name="pais" EntityType="oc2017Model.pais" />
+          <EntitySet Name="representante" EntityType="oc2017Model.representante" />
+          <AssociationSet Name="FK_cidade_estado" Association="oc2017Model.FK_cidade_estado">
+            <End Role="estado" EntitySet="estado" />
+            <End Role="cidade" EntitySet="cidade" />
+          </AssociationSet>
+          <AssociationSet Name="FK_representante_cidade" Association="oc2017Model.FK_representante_cidade">
+            <End Role="cidade" EntitySet="cidade" />
+            <End Role="representante" EntitySet="representante" />
+          </AssociationSet>
+          <AssociationSet Name="FK_estado_pais" Association="oc2017Model.FK_estado_pais">
+            <End Role="pais" EntitySet="pais" />
+            <End Role="estado" EntitySet="estado" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="cidade">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nome" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="id_estado" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="estado" Relationship="oc2017Model.FK_cidade_estado" FromRole="cidade" ToRole="estado" />
+          <NavigationProperty Name="representante" Relationship="oc2017Model.FK_representante_cidade" FromRole="cidade" ToRole="representante" />
+        </EntityType>
+        <EntityType Name="estado">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nome" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="uf" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="id_pais" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="cidade" Relationship="oc2017Model.FK_cidade_estado" FromRole="estado" ToRole="cidade" />
+          <NavigationProperty Name="pais" Relationship="oc2017Model.FK_estado_pais" FromRole="estado" ToRole="pais" />
+        </EntityType>
+        <EntityType Name="pais">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nome" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="estado" Relationship="oc2017Model.FK_estado_pais" FromRole="pais" ToRole="estado" />
+        </EntityType>
+        <EntityType Name="representante">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="nome" />
+            <PropertyRef Name="dataNascimento" />
+            <PropertyRef Name="id_cidade" />
+            <PropertyRef Name="status" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="nome" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="dataNascimento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="telefone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="celular" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="senha" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="cep" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="id_cidade" Type="Int32" Nullable="false" />
+          <Property Name="bairro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="endereco" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="Byte" Nullable="false" />
+          <Property Name="foto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="cidade" Relationship="oc2017Model.FK_representante_cidade" FromRole="representante" ToRole="cidade" />
+        </EntityType>
+        <Association Name="FK_cidade_estado">
+          <End Type="oc2017Model.estado" Role="estado" Multiplicity="1" />
+          <End Type="oc2017Model.cidade" Role="cidade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="estado">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cidade">
+              <PropertyRef Name="id_estado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_representante_cidade">
+          <End Type="oc2017Model.cidade" Role="cidade" Multiplicity="1" />
+          <End Type="oc2017Model.representante" Role="representante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cidade">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="representante">
+              <PropertyRef Name="id_cidade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_estado_pais">
+          <End Type="oc2017Model.pais" Role="pais" Multiplicity="1" />
+          <End Type="oc2017Model.estado" Role="estado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="pais">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="estado">
+              <PropertyRef Name="id_pais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="oc2017ModelStoreContainer" CdmEntityContainer="oc2017Entities">
+          <EntitySetMapping Name="cidade">
+            <EntityTypeMapping TypeName="oc2017Model.cidade">
+              <MappingFragment StoreEntitySet="cidade">
+                <ScalarProperty Name="id_estado" ColumnName="id_estado" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="estado">
+            <EntityTypeMapping TypeName="oc2017Model.estado">
+              <MappingFragment StoreEntitySet="estado">
+                <ScalarProperty Name="id_pais" ColumnName="id_pais" />
+                <ScalarProperty Name="uf" ColumnName="uf" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="pais">
+            <EntityTypeMapping TypeName="oc2017Model.pais">
+              <MappingFragment StoreEntitySet="pais">
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="representante">
+            <EntityTypeMapping TypeName="oc2017Model.representante">
+              <MappingFragment StoreEntitySet="representante">
+                <ScalarProperty Name="foto" ColumnName="foto" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="endereco" ColumnName="endereco" />
+                <ScalarProperty Name="bairro" ColumnName="bairro" />
+                <ScalarProperty Name="id_cidade" ColumnName="id_cidade" />
+                <ScalarProperty Name="cep" ColumnName="cep" />
+                <ScalarProperty Name="senha" ColumnName="senha" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="celular" ColumnName="celular" />
+                <ScalarProperty Name="telefone" ColumnName="telefone" />
+                <ScalarProperty Name="dataNascimento" ColumnName="dataNascimento" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
